@@ -50,7 +50,7 @@ const Navbar = ({
       className="w-full border-b border-gray-100 shadow-sm px-4 md:px-6 py-4 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-between relative bg-white"
       style={{ backgroundColor: theme.secondaryColor }}
     >
-      <div className="flex w-full md:w-auto justify-between items-center">
+      <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
         <a href="/" className="flex items-center">
           <Logo src={logoSrc} alt={logoAlt} size="medium" />
         </a>
@@ -61,27 +61,12 @@ const Navbar = ({
         >
           <Menu size={24} />
         </button>
-      </div>
 
-      <div
-        className={`${isMobileMenuOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row items-center gap-3 w-full md:w-auto mt-4 md:mt-0 transition-all duration-300 ease-in-out`}
-      >
-        {isUserAuthenticated ? (
-          <Link to="/dashboard" className="w-full md:w-auto">
-            <Button
-              variant="outline"
-              className="w-full md:w-auto"
-              style={{
-                borderColor: theme.buttonColor,
-                color: theme.buttonColor,
-              }}
-            >
-              ダッシュボードに戻る
-            </Button>
-          </Link>
-        ) : (
-          <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
-            <DialogTrigger asChild>
+        <div
+          className={`${isMobileMenuOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row items-center gap-3 w-full md:w-auto mt-4 md:mt-0 transition-all duration-300 ease-in-out`}
+        >
+          {isUserAuthenticated ? (
+            <Link to="/dashboard" className="w-full md:w-auto">
               <Button
                 variant="outline"
                 className="w-full md:w-auto"
@@ -90,22 +75,37 @@ const Navbar = ({
                   color: theme.buttonColor,
                 }}
               >
-                スタッフログイン
+                ダッシュボードに戻る
               </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] w-[90%] mx-auto">
-              <div className="flex justify-center mb-4">
-                <Logo src={logoSrc} alt={logoAlt} size="large" />
-              </div>
-              <DialogHeader>
-                <DialogTitle>スタッフログイン</DialogTitle>
-              </DialogHeader>
-              <div className="pt-4">
-                <LoginForm onSuccess={handleLoginSuccess} />
-              </div>
-            </DialogContent>
-          </Dialog>
-        )}
+            </Link>
+          ) : (
+            <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full md:w-auto"
+                  style={{
+                    borderColor: theme.buttonColor,
+                    color: theme.buttonColor,
+                  }}
+                >
+                  スタッフログイン
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px] w-[90%] mx-auto">
+                <div className="flex justify-center mb-4">
+                  <Logo src={logoSrc} alt={logoAlt} size="large" />
+                </div>
+                <DialogHeader>
+                  <DialogTitle>スタッフログイン</DialogTitle>
+                </DialogHeader>
+                <div className="pt-4">
+                  <LoginForm onSuccess={handleLoginSuccess} />
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
       </div>
     </nav>
   );

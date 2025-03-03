@@ -208,150 +208,156 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="w-full border-b border-gray-200 shadow-sm px-4 md:px-6 py-4 md:h-20 flex flex-wrap md:flex-nowrap items-center justify-between bg-white">
-        <div className="flex items-center justify-between w-full md:w-auto">
-          <Logo size="medium" />
-          <button
-            className="md:hidden flex items-center justify-center p-2 rounded-md focus:outline-none"
-            onClick={toggleMobileMenu}
-            aria-label="Toggle menu"
+        <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row">
+          <div className="flex justify-between items-center w-full">
+            <Logo size="medium" />
+            <button
+              className="md:hidden flex items-center justify-center p-2 rounded-md focus:outline-none"
+              onClick={toggleMobileMenu}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          <div
+            className={`${isMobileMenuOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row items-center gap-3 w-full md:w-auto mt-4 md:mt-0 transition-all duration-300 ease-in-out`}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        <div
-          className={`${isMobileMenuOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row items-center gap-3 w-full md:w-auto mt-4 md:mt-0 transition-all duration-300 ease-in-out`}
-        >
-          <div className="flex items-center gap-3">
-            <ContentEditor
-              onSave={handleContentSave}
-              initialContent={
-                localStorage.getItem("restaurantContent")
-                  ? JSON.parse(
-                      localStorage.getItem("restaurantContent") || "{}",
-                    )
-                  : undefined
-              }
-            />
-
-            <ThemeSettings
-              onSave={async (settings) => {
-                try {
-                  // Save to Supabase first
-                  const { updateThemeSettings } = await import(
-                    "../services/themeService"
-                  );
-                  await updateThemeSettings(settings);
-
-                  // Force a re-render by updating localStorage directly
-                  localStorage.setItem(
-                    "restaurantThemeSettings",
-                    JSON.stringify(settings),
-                  );
-                  window.location.reload();
-                } catch (error) {
-                  console.error("Error saving theme settings:", error);
-                  // Still update localStorage and reload as fallback
-                  localStorage.setItem(
-                    "restaurantThemeSettings",
-                    JSON.stringify(settings),
-                  );
-                  window.location.reload();
+            <div className="flex items-center gap-3">
+              <ContentEditor
+                onSave={handleContentSave}
+                initialContent={
+                  localStorage.getItem("restaurantContent")
+                    ? JSON.parse(
+                        localStorage.getItem("restaurantContent") || "{}",
+                      )
+                    : undefined
                 }
-              }}
-              initialSettings={
-                localStorage.getItem("restaurantThemeSettings")
+              />
+
+              <ThemeSettings
+                onSave={async (settings) => {
+                  try {
+                    // Save to Supabase first
+                    const { updateThemeSettings } = await import(
+                      "../services/themeService"
+                    );
+                    await updateThemeSettings(settings);
+
+                    // Force a re-render by updating localStorage directly
+                    localStorage.setItem(
+                      "restaurantThemeSettings",
+                      JSON.stringify(settings),
+                    );
+                    window.location.reload();
+                  } catch (error) {
+                    console.error("Error saving theme settings:", error);
+                    // Still update localStorage and reload as fallback
+                    localStorage.setItem(
+                      "restaurantThemeSettings",
+                      JSON.stringify(settings),
+                    );
+                    window.location.reload();
+                  }
+                }}
+                initialSettings={
+                  localStorage.getItem("restaurantThemeSettings")
+                    ? JSON.parse(
+                        localStorage.getItem("restaurantThemeSettings") || "{}",
+                      )
+                    : undefined
+                }
+              />
+            </div>
+            <div className="flex gap-3 w-full md:w-auto">
+              <Link to="/" className="w-full md:w-auto">
+                <Button
+                  variant="outline"
+                  className="w-full md:w-auto flex items-center justify-center gap-2"
+                  style={{
+                    borderColor: localStorage.getItem("restaurantThemeSettings")
+                      ? JSON.parse(
+                          localStorage.getItem("restaurantThemeSettings") ||
+                            "{}",
+                        ).buttonColor || "#0ea5e9"
+                      : "#0ea5e9",
+                    color: localStorage.getItem("restaurantThemeSettings")
+                      ? JSON.parse(
+                          localStorage.getItem("restaurantThemeSettings") ||
+                            "{}",
+                        ).buttonColor || "#0ea5e9"
+                      : "#0ea5e9",
+                  }}
+                >
+                  <Home size={18} />
+                  <span>ホームに戻る</span>
+                </Button>
+              </Link>
+              <a
+                href="https://drive.google.com/drive/folders/17n0JnmAqx7szXpeMU6FG-dSMTUQw6Ivl?usp=drive_link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full md:w-auto"
+              >
+                <Button
+                  variant="outline"
+                  className="w-full md:w-auto flex items-center justify-center gap-2"
+                  style={{
+                    borderColor: localStorage.getItem("restaurantThemeSettings")
+                      ? JSON.parse(
+                          localStorage.getItem("restaurantThemeSettings") ||
+                            "{}",
+                        ).buttonColor || "#0ea5e9"
+                      : "#0ea5e9",
+                    color: localStorage.getItem("restaurantThemeSettings")
+                      ? JSON.parse(
+                          localStorage.getItem("restaurantThemeSettings") ||
+                            "{}",
+                        ).buttonColor || "#0ea5e9"
+                      : "#0ea5e9",
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" x2="8" y1="13" y2="13" />
+                    <line x1="16" x2="8" y1="17" y2="17" />
+                    <line x1="10" x2="8" y1="9" y2="9" />
+                  </svg>
+                  <span>レシピ</span>
+                </Button>
+              </a>
+            </div>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="w-full md:w-auto flex items-center justify-center gap-2 mt-2 md:mt-0"
+              style={{
+                borderColor: localStorage.getItem("restaurantThemeSettings")
                   ? JSON.parse(
                       localStorage.getItem("restaurantThemeSettings") || "{}",
-                    )
-                  : undefined
-              }
-            />
-          </div>
-          <div className="flex gap-3 w-full md:w-auto">
-            <Link to="/" className="w-full md:w-auto">
-              <Button
-                variant="outline"
-                className="w-full md:w-auto flex items-center justify-center gap-2"
-                style={{
-                  borderColor: localStorage.getItem("restaurantThemeSettings")
-                    ? JSON.parse(
-                        localStorage.getItem("restaurantThemeSettings") || "{}",
-                      ).buttonColor || "#0ea5e9"
-                    : "#0ea5e9",
-                  color: localStorage.getItem("restaurantThemeSettings")
-                    ? JSON.parse(
-                        localStorage.getItem("restaurantThemeSettings") || "{}",
-                      ).buttonColor || "#0ea5e9"
-                    : "#0ea5e9",
-                }}
-              >
-                <Home size={18} />
-                <span>ホームに戻る</span>
-              </Button>
-            </Link>
-            <a
-              href="https://drive.google.com/drive/folders/17n0JnmAqx7szXpeMU6FG-dSMTUQw6Ivl?usp=drive_link"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full md:w-auto"
+                    ).buttonColor || "#0ea5e9"
+                  : "#0ea5e9",
+                color: localStorage.getItem("restaurantThemeSettings")
+                  ? JSON.parse(
+                      localStorage.getItem("restaurantThemeSettings") || "{}",
+                    ).buttonColor || "#0ea5e9"
+                  : "#0ea5e9",
+              }}
             >
-              <Button
-                variant="outline"
-                className="w-full md:w-auto flex items-center justify-center gap-2"
-                style={{
-                  borderColor: localStorage.getItem("restaurantThemeSettings")
-                    ? JSON.parse(
-                        localStorage.getItem("restaurantThemeSettings") || "{}",
-                      ).buttonColor || "#0ea5e9"
-                    : "#0ea5e9",
-                  color: localStorage.getItem("restaurantThemeSettings")
-                    ? JSON.parse(
-                        localStorage.getItem("restaurantThemeSettings") || "{}",
-                      ).buttonColor || "#0ea5e9"
-                    : "#0ea5e9",
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" x2="8" y1="13" y2="13" />
-                  <line x1="16" x2="8" y1="17" y2="17" />
-                  <line x1="10" x2="8" y1="9" y2="9" />
-                </svg>
-                <span>レシピ</span>
-              </Button>
-            </a>
+              <span>ログアウト</span>
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            onClick={handleLogout}
-            className="w-full md:w-auto flex items-center justify-center gap-2 mt-2 md:mt-0"
-            style={{
-              borderColor: localStorage.getItem("restaurantThemeSettings")
-                ? JSON.parse(
-                    localStorage.getItem("restaurantThemeSettings") || "{}",
-                  ).buttonColor || "#0ea5e9"
-                : "#0ea5e9",
-              color: localStorage.getItem("restaurantThemeSettings")
-                ? JSON.parse(
-                    localStorage.getItem("restaurantThemeSettings") || "{}",
-                  ).buttonColor || "#0ea5e9"
-                : "#0ea5e9",
-            }}
-          >
-            <span>ログアウト</span>
-          </Button>
         </div>
       </header>
 

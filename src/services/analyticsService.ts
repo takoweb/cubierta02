@@ -140,6 +140,11 @@ export const fetchAnalyticsData = async (): Promise<AnalyticsData> => {
 
 export const trackPageView = async (pageName: string): Promise<void> => {
   try {
+    // Skip tracking for staff login pages
+    if (pageName === "dashboard") {
+      return;
+    }
+
     // Determine time chunk based on current hour
     const hour = new Date().getHours();
     let timeChunk = "other";
