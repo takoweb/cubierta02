@@ -103,12 +103,14 @@ const DishModal = ({
                   </h3>
                   <ul className="text-xs md:text-sm text-gray-600 space-y-1">
                     {typeof dish.ingredients === "string" && dish.ingredients
-                      ? dish.ingredients.split(",").map((ingredient, index) => (
-                          <li key={index} className="flex items-center">
-                            <span className="mr-2">•</span>
-                            {ingredient.trim()}
-                          </li>
-                        ))
+                      ? dish.ingredients
+                          .split(/[,\n]/)
+                          .map((ingredient, index) => (
+                            <li key={index} className="flex items-center">
+                              <span className="mr-2">•</span>
+                              {ingredient.trim()}
+                            </li>
+                          ))
                       : Array.isArray(dish.ingredients) &&
                         dish.ingredients?.map((ingredient, index) => (
                           <li key={index} className="flex items-center">

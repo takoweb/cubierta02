@@ -184,7 +184,7 @@ const MenuManager = ({
                     }
                     className="col-span-3"
                     rows={3}
-                    placeholder="材料をコンマで区切って入力してください（例：トマト、モッツァレラ、バジル）"
+                    placeholder="材料をコンマまたは改行で区切って入力してください（例：トマト、モッツァレラ、バジル）"
                   />
                 </div>
                 <div className="grid grid-cols-4 items-start gap-4">
@@ -443,7 +443,7 @@ const MenuManager = ({
                               }
                               className="col-span-3"
                               rows={3}
-                              placeholder="材料をコンマで区切って入力してください（例：トマト、モッツァレラ、バジル）"
+                              placeholder="材料をコンマまたは改行で区切って入力してください（例：トマト、モッツァレラ、バジル）"
                             />
                           </div>
                           <div className="grid grid-cols-4 items-start gap-4">

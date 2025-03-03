@@ -47,6 +47,8 @@ export const updateThemeSettings = async (
   settings: ThemeSettings,
 ): Promise<boolean> => {
   try {
+    console.log("Updating theme settings:", settings);
+
     // First check if any settings exist
     const { data: existingData, error: checkError } = await supabase
       .from("theme_settings")
@@ -60,8 +62,12 @@ export const updateThemeSettings = async (
     }
 
     if (existingData && existingData.length > 0) {
+      console.log(
+        "Updating existing theme settings with ID:",
+        existingData[0].id,
+      );
       // Update existing settings
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("theme_settings")
         .update({
           primary_color: settings.primaryColor,
@@ -75,32 +81,41 @@ export const updateThemeSettings = async (
           button_text_color: settings.buttonTextColor,
           updated_at: new Date(),
         })
-        .eq("id", existingData[0].id);
+        .eq("id", existingData[0].id)
+        .select();
 
       if (error) {
         console.error("Error updating theme settings:", error);
         return false;
       }
+
+      console.log("Theme settings updated successfully:", data);
     } else {
+      console.log("Creating new theme settings");
       // Insert new settings
-      const { error } = await supabase.from("theme_settings").insert([
-        {
-          primary_color: settings.primaryColor,
-          secondary_color: settings.secondaryColor,
-          accent_color: settings.accentColor,
-          font_family: settings.fontFamily,
-          logo_url: settings.logoUrl,
-          header_font_color: settings.headerFontColor,
-          text_font_color: settings.textFontColor,
-          button_color: settings.buttonColor,
-          button_text_color: settings.buttonTextColor,
-        },
-      ]);
+      const { data, error } = await supabase
+        .from("theme_settings")
+        .insert([
+          {
+            primary_color: settings.primaryColor,
+            secondary_color: settings.secondaryColor,
+            accent_color: settings.accentColor,
+            font_family: settings.fontFamily,
+            logo_url: settings.logoUrl,
+            header_font_color: settings.headerFontColor,
+            text_font_color: settings.textFontColor,
+            button_color: settings.buttonColor,
+            button_text_color: settings.buttonTextColor,
+          },
+        ])
+        .select();
 
       if (error) {
         console.error("Error inserting theme settings:", error);
         return false;
       }
+
+      console.log("New theme settings created successfully:", data);
     }
 
     return true;
